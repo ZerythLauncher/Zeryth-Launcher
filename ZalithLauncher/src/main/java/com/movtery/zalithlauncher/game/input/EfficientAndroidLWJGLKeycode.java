@@ -22,7 +22,7 @@ import static org.lwjgl.glfw.CallbackBridge.sendKeyPress;
 
 import android.view.KeyEvent;
 
-import com.movtery.inputmap.keycodes.LwjglGlfwKeycode;
+import com.movtery.zalithlauncher.game.keycodes.LwjglGlfwKeycode;
 
 import org.lwjgl.glfw.CallbackBridge;
 

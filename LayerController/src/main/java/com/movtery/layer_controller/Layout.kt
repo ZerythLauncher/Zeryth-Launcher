@@ -50,37 +50,35 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.movtery.layer_controller.data.HideLayerWhen
 import com.movtery.layer_controller.data.VisibilityType
 import com.movtery.layer_controller.event.EventHandler
-import com.movtery.layer_controller.layout.JoystickWidgetRenderer
 import com.movtery.layer_controller.layout.TextButton
 import com.movtery.layer_controller.observable.ObservableButtonStyle
 import com.movtery.layer_controller.observable.ObservableControlLayer
 import com.movtery.layer_controller.observable.ObservableControlLayout
-import com.movtery.layer_controller.observable.ObservableJoystickStyle
 import com.movtery.layer_controller.observable.ObservableWidget
-import com.movtery.layer_controller.observable.PointerEventBus
 import com.movtery.layer_controller.observable.TouchProcessor
+import com.movtery.layer_controller.observable.TouchSession
 import com.movtery.layer_controller.utils.getWidgetPosition
 
 /**
  * 控制布局画布
  * @param observedLayout 需要监听并绘制的控制布局
  * @param eventHandler 处理控制布局事件用到的处理器
- * @param checkOccupiedPointers 检查已占用的指针
+ * @param checkOccupiedPointers 检查已占用的指针，防止底层正在被使用的指针仍被控制布局画布处理
  * @param opacity 控制布局画布整体不透明度 0f~1f
  * @param markPointerAsMoveOnly 标记指针为仅接受滑动处理
  * @param hideLayerWhen 根据情况决定是否隐藏指定控件层
+ * @param isUsingJoystick 是否正在使用摇杆组件
  */
 @Composable
 fun ControlBoxLayout(
     modifier: Modifier = Modifier,
     observedLayout: ObservableControlLayout? = null,
     eventHandler: EventHandler = EventHandler(),
+    isUsingJoystick: Boolean,
     isCursorGrabbing: Boolean,
     checkOccupiedPointers: (PointerId) -> Boolean,
     @FloatRange(0.0, 1.0) opacity: Float = 1f,
     markPointerAsMoveOnly: (PointerId) -> Unit = {},
-    onOccupiedPointer: (PointerId) -> Unit = {},
-    onReleasePointer: (PointerId) -> Unit = {},
     hideLayerWhen: HideLayerWhen = HideLayerWhen.None,
     isDark: Boolean = isSystemInDarkTheme(),
     content: @Composable BoxScope.() -> Unit
@@ -91,6 +89,7 @@ fun ControlBoxLayout(
                 modifier = modifier,
                 contentAlignment = Alignment.BottomCenter
             ) {
+                //控件处于加载状态
                 LinearProgressIndicator(
                     modifier = Modifier.padding(all = 16.dp)
                 )
@@ -109,8 +108,7 @@ fun ControlBoxLayout(
                             checkOccupiedPointers = checkOccupiedPointers,
                             opacity = opacity,
                             markPointerAsMoveOnly = markPointerAsMoveOnly,
-                            onOccupiedPointer = onOccupiedPointer,
-                            onReleasePointer = onReleasePointer,
+                            isUsingJoystick = isUsingJoystick,
                             isCursorGrabbing = isCursorGrabbing,
                             hideLayerWhen = hideLayerWhen,
                             isDark = isDark,
@@ -134,17 +132,17 @@ private fun BoxWithConstraintsScope.BaseControlBoxLayout(
     checkOccupiedPointers: (PointerId) -> Boolean,
     @FloatRange(0.0, 1.0) opacity: Float,
     markPointerAsMoveOnly: (PointerId) -> Unit,
-    onOccupiedPointer: (PointerId) -> Unit,
-    onReleasePointer: (PointerId) -> Unit,
+    isUsingJoystick: Boolean,
     isCursorGrabbing: Boolean,
     hideLayerWhen: HideLayerWhen,
     isDark: Boolean,
     content: @Composable BoxScope.() -> Unit
 ) {
+//    val isDarkMode by rememberUpdatedState(isSystemInDarkTheme())
+
     val layers by observedLayout.layers.collectAsStateWithLifecycle()
     val reversedLayers = remember(layers) { layers.reversed() }
     val styles by observedLayout.styles.collectAsStateWithLifecycle()
-    val joystickStyles by observedLayout.joystickStyles.collectAsStateWithLifecycle()
 
     val currentCheckOccupiedPointers by rememberUpdatedState(checkOccupiedPointers)
     val currentIsCursorGrabbing by rememberUpdatedState(isCursorGrabbing)
@@ -160,11 +158,8 @@ private fun BoxWithConstraintsScope.BaseControlBoxLayout(
         }
     }
 
-    // 共享的多指针状态管理器
-    val pointerEventBus = remember { PointerEventBus() }
-    pointerEventBus.checkOccupiedPointers = currentCheckOccupiedPointers
-    pointerEventBus.markPointerAsMoveOnly = markPointerAsMoveOnly
-
+    //触控管线
+    val touchSession = remember { TouchSession() }
     val touchProcessor = remember(screenSize) {
         TouchProcessor(eventHandler) { widget ->
             getWidgetPosition(widget, widget.internalRenderSize, screenSize)
@@ -182,7 +177,7 @@ private fun BoxWithConstraintsScope.BaseControlBoxLayout(
                             val pointerId = change.id
                             //手指抬起，清理该指针所有状态
                             if (!change.pressed) {
-                                pointerEventBus.endPointer(pointerId).forEach { widget ->
+                                touchSession.endPointer(pointerId).forEach { widget ->
                                     //释放该指针事件
                                     widget.onReleaseEvent(eventHandler, reversedLayers)
                                 }
@@ -197,11 +192,12 @@ private fun BoxWithConstraintsScope.BaseControlBoxLayout(
                             val visibleWidgets = collectVisibleWidgets(
                                 layers = layers,
                                 hideLayerWhen = currentHideLayerWhen,
+                                isUsingJoystick = isUsingJoystick,
                                 isCursorGrabbing = currentIsCursorGrabbing,
                             )
 
                             touchProcessor.processFrame(
-                                session = pointerEventBus,
+                                session = touchSession,
                                 change = change,
                                 visibleWidgets = visibleWidgets,
                                 allLayers = reversedLayers,
@@ -220,14 +216,11 @@ private fun BoxWithConstraintsScope.BaseControlBoxLayout(
             opacity = opacity,
             layers = reversedLayers,
             styles = styles,
-            joystickStyles = joystickStyles,
             screenSize = screenSize,
-            pointerEventBus = pointerEventBus,
             eventHandler = eventHandler,
+            isUsingJoystick = isUsingJoystick,
             isCursorGrabbing = currentIsCursorGrabbing,
-            hideLayerWhen = currentHideLayerWhen,
-            onOccupiedPointer = onOccupiedPointer,
-            onReleasePointer = onReleasePointer
+            hideLayerWhen = currentHideLayerWhen
         )
     }
 }
@@ -238,14 +231,11 @@ private fun ControlsRendererLayer(
     @FloatRange(0.0, 1.0) opacity: Float,
     layers: List<ObservableControlLayer>,
     styles: List<ObservableButtonStyle>,
-    joystickStyles: List<ObservableJoystickStyle>,
     screenSize: IntSize,
-    pointerEventBus: PointerEventBus,
     eventHandler: EventHandler,
+    isUsingJoystick: Boolean,
     isCursorGrabbing: Boolean,
-    hideLayerWhen: HideLayerWhen,
-    onOccupiedPointer: (PointerId) -> Unit,
-    onReleasePointer: (PointerId) -> Unit
+    hideLayerWhen: HideLayerWhen
 ) {
     Layout(
         modifier = Modifier.alpha(alpha = opacity),
@@ -255,12 +245,12 @@ private fun ControlsRendererLayer(
                 val layerVisibility = checkLayerVisibility(
                     layer = layer,
                     hideLayerWhen = hideLayerWhen,
+                    isUsingJoystick = isUsingJoystick,
                     isCursorGrabbing = isCursorGrabbing,
                     visibilityType = layer.visibilityType
                 )
                 val normalButtons by layer.normalButtons.collectAsStateWithLifecycle()
                 val textBoxes by layer.textBoxes.collectAsStateWithLifecycle()
-                val joystickButtons by layer.joystickButtons.collectAsStateWithLifecycle()
 
                 textBoxes.forEach { data ->
                     TextButton(
@@ -291,21 +281,6 @@ private fun ControlsRendererLayer(
                         isPressed = data.isPressed
                     )
                 }
-
-                joystickButtons.forEach { data ->
-                    JoystickWidgetRenderer(
-                        data = data,
-                        joystickStyles = joystickStyles,
-                        screenSize = screenSize,
-                        isDark = isDark,
-                        visible = layerVisibility && checkVisibility(isCursorGrabbing, data.visibilityType),
-                        pointerEventBus = pointerEventBus,
-                        eventHandler = eventHandler,
-                        reversedLayers = layers,
-                        onOccupiedPointer = onOccupiedPointer,
-                        onReleasePointer = onReleasePointer
-                    )
-                }
             }
         }
     ) { measurables, constraints ->
@@ -325,7 +300,6 @@ private fun ControlsRendererLayer(
         layers.fastForEach { layer ->
             layer.textBoxes.value.fastForEach { it.putSize() }
             layer.normalButtons.value.fastForEach { it.putSize() }
-            layer.joystickButtons.value.fastForEach { it.putSize() }
         }
 
         layout(constraints.maxWidth, constraints.maxHeight) {
@@ -346,7 +320,6 @@ private fun ControlsRendererLayer(
             layers.fastForEach { layer ->
                 layer.textBoxes.value.fastForEach { it.place() }
                 layer.normalButtons.value.fastForEach { it.place() }
-                layer.joystickButtons.value.fastForEach { it.place() }
             }
         }
     }
@@ -354,10 +327,12 @@ private fun ControlsRendererLayer(
 
 /**
  * 收集所有可见控件层中的可触控控件
+ * 只做图层可见性、控件可见类型检查，命中和深度检测由 [TouchProcessor] 提供
  */
 private fun collectVisibleWidgets(
     layers: List<ObservableControlLayer>,
     hideLayerWhen: HideLayerWhen,
+    isUsingJoystick: Boolean,
     isCursorGrabbing: Boolean,
 ): List<ObservableWidget> {
     return layers
@@ -365,6 +340,7 @@ private fun collectVisibleWidgets(
             checkLayerVisibility(
                 layer = layer,
                 hideLayerWhen = hideLayerWhen,
+                isUsingJoystick = isUsingJoystick,
                 isCursorGrabbing = isCursorGrabbing,
                 visibilityType = layer.visibilityType,
             )
@@ -384,6 +360,7 @@ private fun collectVisibleWidgets(
 private fun checkLayerVisibility(
     layer: ObservableControlLayer,
     hideLayerWhen: HideLayerWhen,
+    isUsingJoystick: Boolean,
     isCursorGrabbing: Boolean,
     visibilityType: VisibilityType
 ): Boolean {
@@ -391,11 +368,13 @@ private fun checkLayerVisibility(
         return false
     }
 
-    return !when (hideLayerWhen) {
+    val hideConditionMet = when (hideLayerWhen) {
         HideLayerWhen.WhenMouse -> layer.hideWhenMouse
         HideLayerWhen.WhenGamepad -> layer.hideWhenGamepad
         HideLayerWhen.None -> false
     }
+
+    return !(hideConditionMet || (isUsingJoystick && layer.hideWhenJoystick))
 }
 
 /**

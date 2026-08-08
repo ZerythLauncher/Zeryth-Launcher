@@ -33,7 +33,6 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.RequestBody
 import java.util.concurrent.TimeUnit
@@ -129,9 +128,7 @@ val GLOBAL_CLIENT = HttpClient(OkHttp) {
     }
     engine {
         // 使用内置的 OkHttp 客户端：遵循系统代理设置，并具备容灾 DNS 解析能力
-        preconfigured = createOkHttpClientBuilder {
-            it.protocols(listOf(Protocol.HTTP_1_1))
-        }.build()
+        preconfigured = createOkHttpClientBuilder().build()
     }
 }.apply {
     requestPipeline.intercept(HttpRequestPipeline.State) {
