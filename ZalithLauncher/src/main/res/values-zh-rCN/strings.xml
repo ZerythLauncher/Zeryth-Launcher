@@ -498,7 +498,6 @@
     <string name="game_menu_option_hotbar_height">快捷栏高度</string>
     <string name="game_menu_option_hotbar_double_click">双击与副手交换物品</string>
     <string name="game_menu_option_hotbar_long_click">长按丢弃所选物品</string>
-
     <string name="game_menu_option_hotbar_long_click_delay">快捷栏长按触发延迟</string>
     <string name="game_menu_option_show_menu">启用菜单叠加层</string>
     <string name="game_menu_option_show_menu_hided">游戏菜单叠加层已禁用。您可以使用系统返回键打开游戏菜单</string>
@@ -519,13 +518,6 @@
     <string name="game_styles_joystick_hide_when_gamepad">使用手柄时隐藏</string>
     <string name="game_styles_save_failed">保存样式失败</string>
     <string name="game_saponsorship_finished_game">启动器已成功启动游戏 %s 次！如果您觉得它有用，请考虑支持开发者！:)</string>
-
-    <string name="game_menu_option_hotbar_long_click_delay">长按快捷栏触发延迟</string>
-    <string name="game_menu_option_show_menu">开启菜单悬浮窗</string>
-    <string name="game_menu_option_show_menu_hided">已关闭游戏菜单悬浮窗，您可以通过系统返回键调用游戏菜单</string>
-    <string name="game_menu_option_controls_opacity">控制布局不透明度</string>
-    <string name="game_saponsorship_finished_game">启动器已经成功运行了 %s 次游戏！如果您觉得好用的话，可以考虑赞助支持一下作者喔！qwq</string>
-
     <string name="game_vulkan_check_title">Vulkan 检测</string>
     <string name="game_vulkan_check_text">检测您的设备是否支持使用 Vulkan 运行 Minecraft 26.2+。结果仅供参考。</string>
     <string name="game_vulkan_check_version">Vulkan 版本：%s</string>
@@ -1323,18 +1315,10 @@
     <string name="control_editor_menu_title">编辑器菜单</string>
     <string name="control_editor_menu_new_widget_button">添加按钮</string>
     <string name="control_editor_menu_new_widget_text">添加文本框</string>
-
     <string name="control_editor_menu_no_layers_title">没有控制层</string>
     <string name="control_editor_menu_no_layers_message">当前控制布局尚未创建控制层。请先创建控制层。</string>
     <string name="control_editor_menu_no_selected_layer_title">未选择控制层</string>
     <string name="control_editor_menu_no_selected_layer_message">请先选择一个控制层作为目标。</string>
-
-    <string name="control_editor_menu_new_widget_joystick">添加摇杆</string>
-    <string name="control_editor_menu_no_layers_title">没有控件层</string>
-    <string name="control_editor_menu_no_layers_message">当前控制布局还没有创建控件层，请先创建一个控件层。</string>
-    <string name="control_editor_menu_no_selected_layer_title">未选择控件层</string>
-    <string name="control_editor_menu_no_selected_layer_message">请先选择一个控件层作为目标。</string>
-
     <string name="control_editor_menu_preview_mode">预览控制布局</string>
     <string name="control_editor_menu_preview_mode_scenario">预览场景</string>
     <string name="control_editor_menu_preview_mode_in_game">游戏中</string>
@@ -1349,7 +1333,6 @@
     <string name="control_editor_menu_save_and_exit">保存并退出</string>
     <string name="control_editor_layers_title">控制层</string>
     <string name="control_editor_layers_create">新建</string>
-
     <string name="control_editor_layers_delete">您确定要删除控制层 %s 吗？</string>
     <string name="control_editor_layers_attribute">控制层属性</string>
     <string name="control_editor_layers_attribute_name">控制层名称</string>
@@ -1359,16 +1342,6 @@
     <string name="control_editor_layers_attribute_hide_when_joystick">启用摇杆时隐藏</string>
     <string name="control_editor_layers_merge_downward">向下合并控件</string>
     <string name="control_editor_edit_dialog_open_preview">打开预览</string>
-
-    <string name="control_editor_layers_delete">你确定要删除控件层 %s 吗？</string>
-    <string name="control_editor_layers_attribute">控件层属性</string>
-    <string name="control_editor_layers_attribute_name">控件层名称</string>
-    <string name="control_editor_layers_attribute_hide">默认隐藏控件层</string>
-    <string name="control_editor_layers_attribute_hide_when_mouse">在实体鼠标操作时隐藏</string>
-    <string name="control_editor_layers_attribute_hide_when_gamepad">在手柄操作时隐藏</string>
-    <string name="control_editor_layers_merge_downward">合并控件至下层</string>
-    <string name="control_editor_edit_dialog_open_preview">开启预览</string>
-
     <string name="control_editor_edit_dialog_close_preview">关闭预览</string>
     <string name="control_editor_edit_dialog_clone_widget">克隆控件</string>
     <string name="control_editor_edit_dialog_clone_widget_title">克隆到控制层</string>
@@ -1376,26 +1349,8 @@
     <string name="control_editor_edit_category_info">信息</string>
     <string name="control_editor_edit_category_event">点击事件</string>
     <string name="control_editor_edit_category_style">控件样式</string>
-
     <string name="control_editor_edit_layer_default">新建控制层</string>
     <string name="control_editor_edit_button_default">按钮</string>
-
-    <string name="control_editor_edit_category_joystick_config">摇杆配置</string>
-    <string name="control_editor_edit_category_joystick_events">方向事件</string>
-    <string name="control_editor_edit_category_joystick_style">摇杆样式</string>
-    <string name="control_editor_edit_size_joystick">摇杆大小</string>
-    <string name="control_editor_edit_size_reference">大小参考</string>
-    <string name="control_editor_edit_joystick_dead_zone">死区范围</string>
-    <string name="control_editor_edit_joystick_lock_threshold">锁定阈值</string>
-    <string name="control_editor_edit_joystick_can_lock">前进锁定</string>
-    <string name="control_editor_edit_joystick_trigger_mode">操控方式</string>
-    <string name="control_editor_edit_joystick_trigger_mode_drag">拖动触发</string>
-    <string name="control_editor_edit_joystick_trigger_mode_touch">触碰触发</string>
-    <string name="control_editor_edit_joystick_lock_events">锁定事件</string>
-    <string name="control_editor_edit_joystick_select_area">选择区域编辑事件</string>
-    <string name="control_editor_edit_layer_default">新控件层</string>
-    <string name="control_editor_edit_button_default">按键</string>
-
     <string name="control_editor_edit_text_default">文本框</string>
     <string name="control_editor_edit_text">编辑文本</string>
     <string name="control_editor_edit_translatable_default">默认文本</string>
@@ -1467,7 +1422,6 @@
     <string name="control_editor_edit_style_config_widget_radius_right_top">右上角</string>
     <string name="control_editor_edit_style_config_widget_radius_left_bottom">左下角</string>
     <string name="control_editor_edit_style_config_widget_radius_right_bottom">右下角</string>
-
     <string name="control_editor_special_joystick_style">摇杆样式</string>
     <string name="control_editor_special_joystick_style_tip_title">无法创建摇杆？</string>
     <string name="control_editor_special_joystick_style_tip_summary">由于实现复杂度较高，控制布局系统无法直接集成摇杆组件。要使用摇杆组件，您只能在游戏内菜单中启用通用摇杆。但是，您仍然可以通过控制布局提供摇杆外观以保持风格一致。</string>
@@ -1475,9 +1429,6 @@
     <string name="control_editor_special_joystick_style_create_summary">创建由控制布局提供的摇杆样式配置。如果当前控制布局未提供摇杆样式，将使用启动器的摇杆样式。</string>
     <string name="control_editor_special_joystick_style_delete_title">删除摇杆样式</string>
     <string name="control_editor_special_joystick_style_delete_summary">删除当前控制布局的摇杆样式配置，并使用启动器的摇杆样式。</string>
-
-    <string name="control_editor_special_joystick_style_delete_title">删除摇杆样式</string>
-
     <string name="control_editor_special_joystick_style_joystick_color">摇杆颜色</string>
     <string name="control_editor_special_joystick_style_joystick_can_lock_color">摇杆颜色（可锁定）</string>
     <string name="control_editor_special_joystick_style_joystick_locked_color">摇杆颜色（已锁定）</string>
@@ -1485,15 +1436,7 @@
     <string name="control_editor_special_joystick_style_background_rounded_corner">背景圆角半径</string>
     <string name="control_editor_special_joystick_style_joystick_rounded_corner">摇杆圆角半径</string>
     <string name="control_editor_special_joystick_style_joystick_size">摇杆大小</string>
-
     <string name="control_editor_exit_message">您确定要直接退出吗？这将导致所有更改不被保存。如果需要保存，请检查编辑器菜单。</string>
-
-    <string name="control_editor_edit_joystick_style_list">摇杆样式列表</string>
-    <string name="control_editor_edit_joystick_style_list_empty">当前控制布局还没有摇杆样式</string>
-    <string name="control_editor_edit_joystick_style_list_name">摇杆样式名称</string>
-    <string name="control_editor_edit_joystick_style_list_delete">确定要删除摇杆样式 %s？</string>
-    <string name="control_editor_exit_message">您确定要直接退出吗，这会导致您的任何更改都无法被保存。若需要保存，请检查编辑器菜单。</string>
-
     <string name="control_editor_exit_confirm">直接退出</string>
     <!-- About -->
     <string name="about_launcher_title">关于启动器</string>

@@ -808,7 +808,6 @@
     <string name="game_menu_option_show_menu">Menü Yer Paylaşımını Etkinleştir</string>
     <string name="game_menu_option_show_menu_hided">Oyun menüsü yer paylaşımı devre dışı bırakıldı. Oyun menüsünü sistem geri düğmesini kullanarak açabilirsiniz</string>
     <string name="game_menu_option_controls_opacity">Kontrol Düzeni Şeffaflığı</string>
-
     <string name="game_menu_option_hide_controls_loading">Yüklenirken Kontrolleri Gizle</string>
     <string name="game_menu_option_disable_loading_popup">Yükleme Pop-up\'ını Devre Dışı Bırak</string>
     <string name="game_styles_joystick">Joystick\'i Yönetin</string>
@@ -823,8 +822,6 @@
     <string name="game_styles_joystick_hide_when_mouse">Fiziksel Fare Kullanırken Gizle</string>
     <string name="game_styles_joystick_hide_when_gamepad">Oyun Kumandası Kullanırken Gizle</string>
     <string name="game_styles_save_failed">Stili Kurtarma Başarısız</string>
-
-
     <string name="renderer_version_storage_permissions">Mevcut render motoru %s, bir yapılandırma dosyası aracılığıyla yapılandırılabilir. Lütfen öncelikle başlatıcı için harici depolama iznini etkinleştirin, aksi takdirde render motorunun yapılandırmasını okuyamaz ve yükleyemez!</string>
     <string name="renderer_version_storage_permissions_sdk30">Mevcut render motoru %s, bir yapılandırma dosyası aracılığıyla yapılandırılabilir. Lütfen öncelikle başlatıcı için Tüm Dosyaları Yönet iznini etkinleştirin, aksi takdirde render motorunun yapılandırma dosyasını okuyup yükleyemez!</string>
     <string name="account_logging_xbox_banned">Hesabınız Xbox Topluluk Kurallarını ihlal ettiği için yasaklandı ve artık kullanılamaz!</string>
@@ -1183,7 +1180,11 @@
     <string name="control_editor_menu_preview_mode">Önizleme Modu</string>
     <string name="control_editor_edit_text_size">Metin Boyutu</string>
     <string name="control_editor_edit_text_size_custom">Özel Boyut</string>
+    <string name="control_editor_special_joystick_style">Joystick Stili</string>
+    <string name="control_editor_special_joystick_style_create_title">Yeni Stil Oluştur</string>
+    <string name="control_editor_special_joystick_style_create_summary">Özel bir joystick görünümü tasarla.</string>
     <string name="control_editor_special_joystick_style_delete_title">Stili Sil</string>
+    <string name="control_editor_special_joystick_style_delete_summary">Bu stili kalıcı olarak siler.</string>
     <string name="control_editor_special_joystick_style_joystick_color">Joystick Rengi</string>
     <string name="control_editor_special_joystick_style_joystick_can_lock_color">Kilitleme Rengi</string>
     <string name="control_editor_special_joystick_style_joystick_locked_color">Kilitli Renk</string>
@@ -1203,6 +1204,9 @@
     <string name="upgrade_get_remote_failed">Sunucu bilgisi alınamadı.</string>
     <string name="upgrade_is_latest">Zaten en son sürümü kullanıyorsunuz</string>
     <string name="upgrade_cloud_drive">Bulut Sürücü</string>
+    <string name="game_styles_joystick_deadzone">Joystick Ölü Bölge Aralığı</string>
+    <string name="control_editor_special_joystick_style_tip_title">Joystick oluşturamıyor musunuz?</string>
+    <string name="control_editor_special_joystick_style_tip_summary">Uygulamasının zor olması nedeniyle, kontrol düzeni sistemi joystick bileşenlerini doğrudan entegre edemez. Joystick bileşenini kullanmak istiyorsanız, yalnızca oyun içi menüde evrensel joystick bileşenini etkinleştirebilirsiniz. Ancak, kontrol düzeni aracılığıyla joystick bileşeninin görünümünü sağlayarak stil birliğini koruyabilirsiniz.</string>
     <string name="settings_launcher_mirror_assets_search_title">Varlık Platformu Arama Kaynağı</string>
     <string name="settings_launcher_mirror_assets_download_title">Varlık Platformu İndirme Kaynağı</string>
     <string name="about_acknowledgements_mcim_text">%s, MCIM aynalama kaynağını kullanıyor</string>
@@ -1214,6 +1218,7 @@
     <string name="crash_link_share_failed_link_not_found">Uygun bir bağlantı bulunamadı. Lütfen daha sonra deneyin.</string>
     <string name="download_game_addon_warning_api">%s seçili değil. Eğer indirmeden devam ederseniz, çoğu modlar çalışmayacak!</string>
     <string name="download_install_warning_mobile_data">Mobil Veri kullanıyorsunuz. İndirmeye devam etmek mobil verinizden alacaktır.</string>
+    <string name="game_styles_joystick_lock_threshold">Joystick İleri Kilitleme Eşiği</string>
     <string name="game_saponsorship_finished_game">Başlatıcı oyunu %s kez başarıyla başlattı! Eğer faydalı bulduysanız, lütfen geliştiriciyi desteklemeyi düşünün! :)</string>
     <string name="account_advanced">Gelişmiş Ayarlar</string>
     <string name="account_local_uuid_tip_1">UUID, bir Minecraft oyuncusunun benzersiz tanımlayıcısıdır.</string>
@@ -1346,6 +1351,7 @@
     <string name="control_editor_layers_delete">%s kontrol katmanını silmek istediğinizden emin misiniz?</string>
     <string name="control_editor_layers_attribute_hide_when_mouse">Fareyi Kullanırken Gizle</string>
     <string name="control_editor_layers_attribute_hide_when_gamepad">Kontrolcü Kullanırken Gizle</string>
+    <string name="control_editor_layers_attribute_hide_when_joystick">Joystick Aktifken Gizle</string>
     <string name="control_editor_edit_dialog_delete_widget">Bu widget\'ı silmek istediğinizden emin misiniz?</string>
     <string name="control_editor_edit_style_config_common_style">Koyu Temayı Ayırt Etmeyin</string>
     <string name="control_editor_edit_style_config_delete">%s kontrol görünümünü silmek istediğinizden emin misiniz?</string>

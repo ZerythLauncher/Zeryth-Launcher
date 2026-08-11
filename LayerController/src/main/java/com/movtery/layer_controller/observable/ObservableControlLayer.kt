@@ -21,7 +21,6 @@ package com.movtery.layer_controller.observable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.movtery.layer_controller.data.JoystickData
 import com.movtery.layer_controller.data.NormalData
 import com.movtery.layer_controller.data.TextData
 import com.movtery.layer_controller.layout.ControlLayer
@@ -43,6 +42,7 @@ class ObservableControlLayer(
     var hide by mutableStateOf(editorHide)
     var hideWhenMouse by mutableStateOf(layer.hideWhenMouse)
     var hideWhenGamepad by mutableStateOf(layer.hideWhenGamepad)
+    var hideWhenJoystick by mutableStateOf(layer.hideWhenJoystick)
     var visibilityType by mutableStateOf(layer.visibilityType)
     
     private val _normalButtons = MutableStateFlow(layer.normalButtons.map { ObservableNormalData(it) })
@@ -50,9 +50,6 @@ class ObservableControlLayer(
     
     private val _textBoxes = MutableStateFlow(layer.textBoxes.map { ObservableTextData(it) })
     val textBoxes = _textBoxes.asStateFlow()
-
-    private val _joystickButtons = MutableStateFlow(layer.joystickButtons.map { ObservableJoystickData(it) })
-    val joystickButtons = _joystickButtons.asStateFlow()
 
     /**
      * 添加一个普通的按钮
@@ -114,36 +111,6 @@ class ObservableControlLayer(
         }
     }
 
-    /**
-     * 添加摇杆控件
-     */
-    fun addJoystickButton(joystick: JoystickData) {
-        addJoystickButton(ObservableJoystickData(joystick))
-    }
-
-    /**
-     * 添加摇杆控件
-     */
-    fun addJoystickButton(joystick: ObservableJoystickData) {
-        _joystickButtons.update { it + joystick }
-    }
-
-    /**
-     * 批量添加摇杆控件
-     */
-    fun addAllJoystickButton(joysticks: List<ObservableJoystickData>) {
-        _joystickButtons.update { it + joysticks }
-    }
-
-    /**
-     * 移除摇杆控件
-     */
-    fun removeJoystickButton(uuid: String) {
-        _joystickButtons.update { oldList ->
-            oldList.filterNot { it.uuid == uuid }
-        }
-    }
-
     override fun pack(): ControlLayer {
         return ControlLayer(
             name = name,
@@ -151,10 +118,10 @@ class ObservableControlLayer(
             hide = editorHide,
             hideWhenMouse = hideWhenMouse,
             hideWhenGamepad = hideWhenGamepad,
+            hideWhenJoystick = hideWhenJoystick,
             visibilityType = visibilityType,
             normalButtons = _normalButtons.value.map { it.packNormal() },
-            textBoxes = _textBoxes.value.map { it.packText() },
-            joystickButtons = _joystickButtons.value.map { it.packJoystick() }
+            textBoxes = _textBoxes.value.map { it.packText() }
         )
     }
 
